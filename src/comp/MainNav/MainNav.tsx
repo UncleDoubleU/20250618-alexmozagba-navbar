@@ -44,6 +44,7 @@ export default function MainNav() {
           <li key={lang.name}>{lang.value}</li>
         ))}
       </ul>
+      {/* testing */}
     </header>
   );
 }
