@@ -16,31 +16,35 @@ a
      width: max-content
      font-size: 2.5rem
      line-height: 2.5rem
-nav
+
+header
      display: flex
      justify-content: space-between
-     align-items: center
      position: fixed
      top: 1rem
      left: 50%
      transform: translate(-50%)
-     z-index: 10
      width: calc( 100% - 2rem )
+     z-index: 10
+     align-items: center
+     @media screen and (width >= App.$extraLargeScreen)
+          width: calc( App.$extraLargeScreen - 2rem )
+
+nav
+     display: flex
+     justify-content: space-between
+     align-items: center
+     width: 100%
      height: max-content
      padding: 0 0.275rem
      background-color: App.$quinaryColour
      border: 2px solid App.$quartenaryColour
 
-     @media screen and (width >= App.$extraLargeScreen)
-          width: calc( App.$extraLargeScreen - 2rem )
-
 ul
      display: flex
      justify-content: space-between
      list-style: none
-     width: 40%
-     @media screen and (width <= App.$largeScreen)
-          width: 50%
+     gap: 5rem
 
      li
           padding: 0

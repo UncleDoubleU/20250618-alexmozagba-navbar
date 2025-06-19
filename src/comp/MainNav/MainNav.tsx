@@ -12,23 +12,38 @@ export default function MainNav() {
     { name: "CONTACT", path: "/contact" },
   ];
 
+  const languages = [
+    { name: "Nederlands", value: "NL" },
+    { name: "English", value: "EN" },
+    { name: "Français", value: "FR" },
+  ];
+
   return (
-    <nav className="nav">
-      <h1 className={styles.logo}>ALEX MOZAGBA</h1>
-      <ul aria-label="main navigation">
-        {navLinks.map((link) => (
-          <li key={link.name}>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? `${styles.activeLink}` : `${styles.a}`
-              }
-              to={link.path}
-            >
-              {link.name}
-            </NavLink>
-          </li>
+    <header>
+      <nav className="nav">
+        <h1 key="logo" className={styles.logo}>
+          ALEX MOZAGBA
+        </h1>
+        <ul key="nav-list" aria-label="main navigation">
+          {navLinks.map((link) => (
+            <li key={link.name}>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? `${styles.activeLink}` : `${styles.a}`
+                }
+                to={link.path}
+              >
+                {link.name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <ul>
+        {languages.map((lang) => (
+          <li key={lang.name}>{lang.value}</li>
         ))}
       </ul>
-    </nav>
+    </header>
   );
 }
