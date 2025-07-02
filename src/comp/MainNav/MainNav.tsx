@@ -20,10 +20,11 @@ export default function MainNav() {
 
   return (
     <header>
+      <a className={styles.skipNav}>skip to main content</a>
       <nav className="nav">
-        <h1 key="logo" className={styles.logo}>
+        <a key="logo" className={styles.logo}>
           ALEX MOZAGBA
-        </h1>
+        </a>
         <ul key="nav-list" aria-label="main navigation">
           {navLinks.map((link) => (
             <li key={link.name}>
@@ -39,12 +40,13 @@ export default function MainNav() {
           ))}
         </ul>
       </nav>
-      <ul>
+      <ul className={styles.langCont}>
         {languages.map((lang) => (
-          <li key={lang.name}>{lang.value}</li>
+          <li key={lang.name}>
+            <button>{lang.value}</button>
+          </li>
         ))}
       </ul>
-      {/* testing */}
     </header>
   );
 }

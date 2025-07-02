@@ -9,6 +9,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        
         <MainNav />
         <Routes>
           <Route path="/" element={<Work />} />
