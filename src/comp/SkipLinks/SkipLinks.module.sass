@@ -1,0 +1,20 @@
+@use '../../App'
+.skipNavActive
+     position: fixed
+     top: 0.75rem
+     left: 0.75rem
+     z-index: 11
+     padding: 0.75rem 1.25rem
+     border-radius: 0.125rem
+     font-size: 1.25rem
+     background: App.$quinaryColour
+     color: App.$quartenaryColour
+     border: 2px solid App.$quartenaryColour
+
+     &:hover,&:focus-visible
+          background: App.$quartenaryColour
+          color: App.$quinaryColour
+          border: 2px solid App.$quinaryColour
+
+.skipNav
+     display: none

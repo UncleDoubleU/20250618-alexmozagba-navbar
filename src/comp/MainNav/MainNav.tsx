@@ -1,11 +1,8 @@
 import { NavLink } from "react-router";
+
 import styles from "./MainNav.module.sass";
-import { useState, useEffect } from "react";
 
 export default function MainNav() {
-  const [width, setWidth] = useState(window.innerWidth);
-  const [isOpen, setIsOpen] = useState(false);
-
   const navLinks = [
     { name: "WORK", path: "/" },
     { name: "ABOUT", path: "/about" },
@@ -20,11 +17,10 @@ export default function MainNav() {
 
   return (
     <header>
-      <a className={styles.skipNav}>skip to main content</a>
       <nav className="nav">
-        <a key="logo" className={styles.logo}>
+        <h2 key="logo" className={styles.logo}>
           ALEX MOZAGBA
-        </a>
+        </h2>
         <ul key="nav-list" aria-label="main navigation">
           {navLinks.map((link) => (
             <li key={link.name}>
