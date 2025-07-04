@@ -10,17 +10,32 @@ export default function MainNav() {
   ];
 
   const languages = [
-    { name: "Nederlands", value: "NL" },
-    { name: "English", value: "EN" },
-    { name: "Français", value: "FR" },
+    {
+      name: "Nederlands",
+      value: "NL",
+      attrib: "nl",
+      label: "Overschakelen naar de Nederlandse versie van de website",
+    },
+    {
+      name: "English",
+      value: "EN",
+      attrib: "en",
+      label: "Switch to the English version of the website",
+    },
+    {
+      name: "Français",
+      value: "FR",
+      attrib: "fr",
+      label: "Passer à la version française du site",
+    },
   ];
 
   return (
     <header>
       <nav className="nav">
-        <h2 key="logo" className={styles.logo}>
+        <NavLink to={"/"} key="logo" className={styles.logo}>
           ALEX MOZAGBA
-        </h2>
+        </NavLink>
         <ul key="nav-list" aria-label="main navigation">
           {navLinks.map((link) => (
             <li key={link.name}>
@@ -39,7 +54,9 @@ export default function MainNav() {
       <ul className={styles.langCont}>
         {languages.map((lang) => (
           <li key={lang.name}>
-            <button>{lang.value}</button>
+            <button lang={lang.attrib} aria-label={lang.label}>
+              {lang.value}
+            </button>
           </li>
         ))}
       </ul>

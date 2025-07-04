@@ -1,6 +1,5 @@
 import styles from "./SkipLinks.module.sass";
 import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router";
 
 export default function SkipLinks() {
   const [isTabbing, setIsTabbing] = useState(false);
@@ -18,33 +17,26 @@ export default function SkipLinks() {
     );
   }, [isTabbing]);
 
-  useEffect(() => {
-    window.addEventListener("keyup", handleFirstTab);
-
-    return () => {
-      window.removeEventListener("keyup", handleFirstTab);
-    };
-  }, [isTabbing]);
-
-  function handleFirstTab(e: KeyboardEvent) {
-    if (e.key === "Tab") {
-      setIsTabbing(true);
-    }
-  }
-
-  function handleClick(e) {
-    document.getElementById("main")?.focus();
+  function handleClick() {
     setIsTabbing(false);
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (main) {
+        main.tabIndex = -1;
+        main.focus();
+      }
+    });
   }
   return (
-    <Link
-      tabIndex={-1}
+    <a
       ref={skipLinkRef}
-      to={{ hash: "#main" }}
+      href="#main"
       className={skipNavStyle}
       onClick={handleClick}
+      onFocus={() => setIsTabbing(true)}
+      onBlur={() => setIsTabbing(false)}
     >
       skip to content
-    </Link>
+    </a>
   );
 }
