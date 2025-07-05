@@ -4,7 +4,7 @@ header
      display: flex
      position: fixed
      justify-content: center
-     gap: 2rem
+     gap: .5rem
      top: 1rem
      left: 50%
      transform: translate(-50%)
@@ -38,56 +38,66 @@ header
                border: none
                width: max-content
                justify-content: center
+               justify-self: end
+               grid-column: 2/3
+               grid-row: 1/2
 
           &:hover,&:focus-visible
                color: App.$primaryColour
                cursor: pointer
 
-nav
-     display: flex
-     justify-content: space-between
-     align-items: center
-     width: min(100%, 1440px)
-     height: 2.25rem
-     padding: 0 0.275rem
-     background-color: App.$quinaryColour
-     border: 2px solid App.$quartenaryColour
-     border-radius: 0.125rem
+     @media screen and (max-width: App.$smallMediumScreen)
+          display: grid
+          grid-template-columns: 1fr
+          grid-template-rows: repeat(auto, 3)
 
-     ul
+     nav
           display: flex
           justify-content: space-between
-          list-style: none
-          gap: 5rem
-
-          li
-               padding: 0
-               a
-                    &:hover,&:focus-visible
-                         color: App.$primaryColour
-
-     @media screen and (width<=App.$largeScreen)
-          ul
-               gap: 2.95rem
-
-     @media screen and (width<=App.$mediumScreen)
-          position: relative
-
-          .ul
-               display: none
-
-     .activeList
-          left: 100%
-          transform: translate(-100%)
-          width: 40%
-          padding: .5rem
-          border: 2px solid App.$quartenaryColour
+          align-items: center
+          width: min(100%, 1440px)
+          height: min(2.25rem, min-content)
+          padding: 0 0.275rem
           background-color: App.$quinaryColour
-          top: 3rem
-          position: absolute
-          flex-direction: column
-          align-items: flex-end
-          gap: 1.85rem
+          border: 2px solid App.$quartenaryColour
+          border-radius: App.$navRadius
+
+          ul
+               display: flex
+               justify-content: space-between
+               list-style: none
+               gap: 5rem
+
+               li
+                    padding: 0
+                    a
+                         &:hover,&:focus-visible
+                              color: App.$primaryColour
+
+          @media screen and (width<=App.$largeScreen)
+               ul
+                    gap: 2.95rem
+
+          @media screen and (width<=App.$mediumScreen)
+               display: grid
+               grid-template-columns: auto auto
+               grid-template-rows: repeat(2,auto)
+
+               .ul
+                    display: none
+
+          @media screen and (max-width: App.$smallMediumScreen)
+               grid-row: 1/2
+
+          .activeList
+               padding-top: 1.25rem
+               grid-row: 2/3
+               grid-column: 2/3
+               justify-self: end
+               border-radius: App.$navRadius
+               flex-direction: column
+               align-items: flex-end
+               gap: 1.25rem
 
 .activeLink
      color: App.$tertiaryColour
@@ -101,7 +111,7 @@ nav
      padding: 0.25rem
      background-color: App.$quinaryColour
      border: 2px solid App.$quartenaryColour
-     border-radius: 0.125rem
+     border-radius: App.$navRadius
      justify-content: space-between
      list-style: none
 
@@ -118,4 +128,4 @@ nav
                color: App.$quartenaryColour
                opacity: 1
                border: 2px solid App.$quartenaryColour
-               border-radius: 0.125rem
+               border-radius: App.$navRadius
