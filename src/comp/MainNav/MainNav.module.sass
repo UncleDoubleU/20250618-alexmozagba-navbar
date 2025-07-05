@@ -1,22 +1,5 @@
 @use '../../App'
 
-a
-     font-family: Arial, Helvetica, sans-serif
-     font-weight: lighter
-     text-decoration: none
-     color: App.$quartenaryColour
-     cursor: pointer
-     font-size: 1.75rem
-     line-height: 1.75rem
-     height: max-content
-
-.logo
-     font-family: Arial, Helvetica, sans-serif
-     font-weight: lighter
-     width: max-content
-     font-size: 1.75rem
-     line-height: 1.75rem
-
 header
      display: flex
      position: fixed
@@ -28,6 +11,37 @@ header
      width: calc( 100% - 2rem )
      z-index: 10
      align-items: center
+
+     a
+          font: App.$xlNavFont
+          text-decoration: none
+          color: App.$quartenaryColour
+          cursor: pointer
+          height: max-content
+
+     .logo
+          font: App.$xlNavFont
+          width: max-content
+
+     .menuBtn
+          display: none
+
+     @media screen and (width<=App.$largeScreen)
+          a,.logo
+               font: App.$lNavFont
+
+     @media screen and (width<=App.$mediumScreen)
+          .menuBtn
+               display: block
+               font: App.$lNavFont
+               background: none
+               border: none
+               width: max-content
+               justify-content: center
+
+          &:hover,&:focus-visible
+               color: App.$primaryColour
+               cursor: pointer
 
 nav
      display: flex
@@ -51,9 +65,29 @@ nav
                a
                     &:hover,&:focus-visible
                          color: App.$primaryColour
+
      @media screen and (width<=App.$largeScreen)
           ul
                gap: 2.95rem
+
+     @media screen and (width<=App.$mediumScreen)
+          position: relative
+
+          .ul
+               display: none
+
+     .activeList
+          left: 100%
+          transform: translate(-100%)
+          width: 40%
+          padding: .5rem
+          border: 2px solid App.$quartenaryColour
+          background-color: App.$quinaryColour
+          top: 3rem
+          position: absolute
+          flex-direction: column
+          align-items: flex-end
+          gap: 1.85rem
 
 .activeLink
      color: App.$tertiaryColour
@@ -73,13 +107,9 @@ nav
 
      button
           background: none
-          align-content: text
           border: 2px solid transparent
-          font-size: 1.5rem
-          line-height: 1.14rem
           padding: 0.125rem
-          font-family: Arial, Helvetica, sans-serif
-          font-weight: lighter
+          font: App.$xlBtnFont
           text-decoration: none
           cursor: pointer
           opacity: 0.45
@@ -89,34 +119,3 @@ nav
                opacity: 1
                border: 2px solid App.$quartenaryColour
                border-radius: 0.125rem
-
-.activeLang
-     background: none
-     border: none
-     font-size: 2.5rem
-     line-height: 2.5rem
-     font-family: Arial, Helvetica, sans-serif
-     font-weight: lighter
-     text-decoration: none
-     cursor: pointer
-     opacity: 1
-
-// .skipNavActive
-//      position: fixed
-//      top: 0.75rem
-//      left: 0.75rem
-//      z-index: 11
-//      padding: 0.75rem 1.25rem
-//      border-radius: 0.125rem
-//      font-size: 1.25rem
-//      background: App.$quinaryColour
-//      color: App.$quartenaryColour
-//      border: 2px solid App.$quartenaryColour
-
-//      &:hover,&:focus-visible
-//           background: App.$quartenaryColour
-//           color: App.$quinaryColour
-//           border: 2px solid App.$quinaryColour
-
-// .skipNav
-//      display: none

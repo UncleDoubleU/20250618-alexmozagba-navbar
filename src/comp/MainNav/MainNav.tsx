@@ -1,8 +1,25 @@
 import { NavLink } from "react-router";
 
 import styles from "./MainNav.module.sass";
+import { useEffect, useState } from "react";
 
 export default function MainNav() {
+  const [menuText, setMenuText] = useState("MENU");
+  const [isClicked, setIsClicked] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setMenuText(isClicked ? "CLOSE" : "MENU");
+  }, [isClicked]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const navLinks = [
     { name: "WORK", path: "/" },
     { name: "ABOUT", path: "/about" },
@@ -30,13 +47,28 @@ export default function MainNav() {
     },
   ];
 
+  function handleResize() {
+    setWidth(window.innerWidth);
+    setIsClicked(false);
+  }
+
+  function menuBtnClick() {
+    setIsClicked((c) => !c);
+  }
+
+  const showMenu = width <= 1024 ? !isClicked : true;
+  const ulClass = showMenu ? `${styles.ul}` : `${styles.activeList}`;
+
   return (
     <header>
       <nav className="nav">
         <NavLink to={"/"} key="logo" className={styles.logo}>
           ALEX MOZAGBA
         </NavLink>
-        <ul key="nav-list" aria-label="main navigation">
+        <button className={styles.menuBtn} onClick={menuBtnClick}>
+          {menuText}
+        </button>
+        <ul key="nav-list" aria-label="main navigation" className={ulClass}>
           {navLinks.map((link) => (
             <li key={link.name}>
               <NavLink
