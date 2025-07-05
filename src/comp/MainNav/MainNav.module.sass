@@ -6,16 +6,16 @@ a
      text-decoration: none
      color: App.$quartenaryColour
      cursor: pointer
-     font-size: 2.5rem
-     line-height: 2.5rem
+     font-size: 1.75rem
+     line-height: 1.75rem
      height: max-content
 
 .logo
      font-family: Arial, Helvetica, sans-serif
      font-weight: lighter
      width: max-content
-     font-size: 2.5rem
-     line-height: 2.5rem
+     font-size: 1.75rem
+     line-height: 1.75rem
 
 header
      display: flex
@@ -33,45 +33,51 @@ nav
      display: flex
      justify-content: space-between
      align-items: center
-     width: 70%
-     height: max-content
+     width: min(100%, 1440px)
+     height: 2.25rem
      padding: 0 0.275rem
      background-color: App.$quinaryColour
      border: 2px solid App.$quartenaryColour
      border-radius: 0.125rem
 
-ul
-     display: flex
-     justify-content: space-between
-     list-style: none
-     gap: 5rem
+     ul
+          display: flex
+          justify-content: space-between
+          list-style: none
+          gap: 5rem
 
-     li
-          padding: 0
-          a
-               &:hover,&:focus-visible
-                    color: App.$primaryColour
+          li
+               padding: 0
+               a
+                    &:hover,&:focus-visible
+                         color: App.$primaryColour
+     @media screen and (width<=App.$largeScreen)
+          ul
+               gap: 2.95rem
 
 .activeLink
      color: App.$tertiaryColour
 
 .langCont
      display: flex
-     gap: 2rem
+     justify-content: space-between
      align-items: center
-     width: 15rem
-     height: max-content
+     width: 10rem
+     height: 2.25rem
      padding: 0.25rem
      background-color: App.$quinaryColour
      border: 2px solid App.$quartenaryColour
      border-radius: 0.125rem
+     justify-content: space-between
+     list-style: none
 
      button
           background: none
+          align-content: text
           border: 2px solid transparent
           font-size: 1.5rem
-          line-height: 1.5rem
-          padding: 0.25rem
+          line-height: 1.14rem
+          padding: 0.125rem
           font-family: Arial, Helvetica, sans-serif
           font-weight: lighter
           text-decoration: none
