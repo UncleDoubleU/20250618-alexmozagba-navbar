@@ -1,12 +1,13 @@
 import { NavLink } from "react-router";
 
 import styles from "./MainNav.module.sass";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function MainNav() {
   const [menuText, setMenuText] = useState("MENU");
   const [isClicked, setIsClicked] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMenuText(isClicked ? "CLOSE" : "MENU");
@@ -14,9 +15,16 @@ export default function MainNav() {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("click", (e) => {
+      if (e.target !== menuBtnRef.current) {
+        setIsClicked(false);
+      }
+    });
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -52,12 +60,18 @@ export default function MainNav() {
     setIsClicked(false);
   }
 
+  function handleScroll() {
+    setIsClicked(false);
+  }
+
   function menuBtnClick() {
     setIsClicked((c) => !c);
   }
 
   const showMenu = width <= 1024 ? !isClicked : true;
   const ulClass = showMenu ? `${styles.ul}` : `${styles.activeList}`;
+  const langClass =
+    !isClicked && width < 1025 ? styles.langContInactive : styles.langCont;
 
   return (
     <header>
@@ -65,7 +79,11 @@ export default function MainNav() {
         <NavLink to={"/"} key="logo" className={styles.logo}>
           ALEX MOZAGBA
         </NavLink>
-        <button className={styles.menuBtn} onClick={menuBtnClick}>
+        <button
+          ref={menuBtnRef}
+          className={styles.menuBtn}
+          onClick={menuBtnClick}
+        >
           {menuText}
         </button>
         <ul key="nav-list" aria-label="main navigation" className={ulClass}>
@@ -83,7 +101,7 @@ export default function MainNav() {
           ))}
         </ul>
       </nav>
-      <ul className={styles.langCont}>
+      <ul className={langClass}>
         {languages.map((lang) => (
           <li key={lang.name}>
             <button lang={lang.attrib} aria-label={lang.label}>
