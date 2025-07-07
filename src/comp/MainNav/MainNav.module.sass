@@ -1,140 +1,96 @@
 @use '../../App'
 
 header
-     display: flex
+     display: grid
+     grid-template-columns: repeat(2,auto)
+     grid-template-rows: repeat(3,auto)
      position: fixed
-     justify-content: center
-     gap: .5rem
      top: 1rem
      left: 50%
      transform: translate(-50%)
      width: calc( 100% - 2rem )
+     max-width: 1440px
      z-index: 10
-     align-items: center
+     padding: .125rem
+     font: App.$sNavFont
+     color: App.$primaryColour
+     border: App.$border
+     border-radius: App.$navRadius
+     background-color: App.$quinaryColour
+
+nav
+     grid-column: 1/3
+     display: grid
+     grid-template-columns: 1fr 1fr
+
+.menuBtn
+     align-self: end
+     justify-self: end
+
+.inactive,ul
+     display: none
+
+.activeList
+     display: flex
+     flex-direction: column
+     gap: 1.5rem
+     margin-top: 2.5rem
+     grid-column: 1/3
+     justify-self: center
+     text-align: left
+     width: 100%
+     a
+          width: 5rem
+          padding: 0 5rem 0.75rem 0
+
+.langCont
+     grid-column: 1/3
+     margin-top: 2.5rem
+     justify-self: end
+     display: flex
+     gap: 1.25rem
+
+@media screen and (App.$smallScreen <= width <= App.$mediumScreen)
+     nav
+          grid-row: 1/2
+     .langCont
+          grid-column: 2/3
+          grid-row: 1/2
+          align-self: end
+
+@media screen and (width > App.$mediumScreen)
+     header
+          background: none
+          border: none
+          gap: 2rem
+          grid-template-columns: 5fr auto
+          grid-template-rows: 1fr
+          font: App.$lNavFont
+
+     nav,.langCont
+          border: App.$border
+          border-radius: App.$navRadius
+          background-color: App.$quinaryColour
+          padding: 0.125rem
 
      nav
-          display: flex
-          justify-content: space-between
-          align-items: center
-          width: min(100%, 1440px)
-          height: max(2.25rem, min-content)
-          padding: 0 0.275rem
-          background-color: App.$quinaryColour
-          border: 2px solid App.$quartenaryColour
-          border-radius: App.$navRadius
-
-          ul
-               display: flex
-               justify-content: space-between
-               list-style: none
-               gap: 3rem
-
-               li
-                    padding: 0
-                    a
-                         &:hover,&:focus-visible
-                              color: App.$primaryColour
-
-          @media screen and (width<=App.$mediumScreen)
-               display: grid
-               grid-template-columns: auto auto
-               grid-template-rows: repeat(2,auto)
-               border: none
-               padding: 0
-
-               .ul
-                    display: none
-
-          @media screen and (max-width: App.$smallMediumScreen)
-               grid-row: 1/2
-
-          .activeList
-               padding-top: 1.25rem
-               grid-row: 2/3
-               grid-column: 2/3
-               justify-self: end
-               border-radius: App.$navRadius
-               flex-direction: column
-               align-items: flex-end
-               gap: 1.25rem
-
-     a
-          font: App.$lNavFont
-          text-decoration: none
-          color: App.$quartenaryColour
-          cursor: pointer
+          grid-column: 1/2
           height: max-content
+          width: 100%
+          grid-template-columns: auto auto
+          justify-content: space-between
 
-     .logo
-          font: App.$lNavFont
-          width: max-content
+     .langCont
+          grid-column: 2/3
+          height: max-content
+          margin: 0
+          justify-content: space-between
+          width: 10rem
 
      .menuBtn
           display: none
 
-     @media screen and (width<=App.$mediumScreen)
-          display: grid
-          grid-template-columns: 1fr
-          grid-template-rows: repeat(auto, 3)
-          background-color: App.$quinaryColour
-          border: 2px solid App.$quartenaryColour
-          border-radius: App.$navRadius
-          padding: 0 0.275rem
-
-          .menuBtn
-               display: block
-               font: App.$lNavFont
-               background: none
-               border: none
-               width: max-content
-               justify-content: center
-               justify-self: end
-               grid-column: 2/3
-               grid-row: 1/2
-
-          &:hover,&:focus-visible
-               color: App.$primaryColour
-               cursor: pointer
-
-     @media screen and (max-width: App.$smallScreen)
-          a,.logo, .menuBtn
-               font: App.$sNavFont
-
-.activeLink
-     color: App.$tertiaryColour
-
-.langCont
-     display: flex
-     gap: 1rem
-     align-items: center
-     width: min-content
-     height: max(2.25rem, min-content)
-     background-color: App.$quinaryColour
-     border: 2px solid App.$quartenaryColour
-     border-radius: App.$navRadius
-     list-style: none
-     padding: 0 0.275rem
-
-     button
-          background: none
-          border: none
-          font: App.$lNavFont
-          text-decoration: none
-          cursor: pointer
-          opacity: 0.45
-          &:hover,&:focus-visible
-               background: App.$quinaryColour
-               color: App.$quartenaryColour
-               opacity: 1
-
-     @media screen and (max-width:App.$mediumScreen)
-          margin-top: 2rem
-          justify-self: end
-          border: none
-          padding: 0
-     @media screen and (max-width: App.$smallScreen)
-          font: App.$sNavFont
-          padding: 0 0.275rem
-
-.langContInactive
-     display: none
+     ul
+          display: flex
+          list-style: none
+          gap: 3rem

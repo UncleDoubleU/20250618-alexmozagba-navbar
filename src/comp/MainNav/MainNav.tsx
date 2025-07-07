@@ -71,7 +71,7 @@ export default function MainNav() {
   const showMenu = width <= 1024 ? !isClicked : true;
   const ulClass = showMenu ? `${styles.ul}` : `${styles.activeList}`;
   const langClass =
-    !isClicked && width < 1025 ? styles.langContInactive : styles.langCont;
+    !isClicked && width < 1025 ? styles.inactive : styles.langCont;
 
   return (
     <header>
