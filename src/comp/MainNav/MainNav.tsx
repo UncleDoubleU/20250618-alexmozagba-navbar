@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-
+import { gsap } from "gsap";
 import styles from "./MainNav.module.sass";
 import { useEffect, useRef, useState } from "react";
 
@@ -7,7 +7,10 @@ export default function MainNav() {
   const [menuText, setMenuText] = useState("MENU");
   const [isClicked, setIsClicked] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
     setMenuText(isClicked ? "CLOSE" : "MENU");
@@ -21,6 +24,7 @@ export default function MainNav() {
         setIsClicked(false);
       }
     });
+    window.onload = introScreen;
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -57,6 +61,7 @@ export default function MainNav() {
 
   function handleResize() {
     setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
     setIsClicked(false);
   }
 
@@ -67,16 +72,24 @@ export default function MainNav() {
   function menuBtnClick() {
     setIsClicked((c) => !c);
   }
-
+  function introScreen() {
+    if (headerRef.current) {
+      const hEl = headerRef.current
+      let tl = gsap.timeline();
+      tl.from(hEl, { duration: 2, opacity: 0 })
+        .from(hEl, { duration: 2, top: height / 2 - hEl.offsetHeight / 2 })
+        .from(hEl, { duration: 1.5, width: logoRef.current?.offsetWidth })
+    }
+  }
   const showMenu = width <= 1024 ? !isClicked : true;
   const ulClass = showMenu ? `${styles.ul}` : `${styles.activeList}`;
   const langClass =
     !isClicked && width < 1025 ? styles.inactive : styles.langCont;
 
   return (
-    <header>
+    <header ref={headerRef}>
       <nav className="nav">
-        <NavLink to={"/"} key="logo" className={styles.logo}>
+        <NavLink ref={logoRef} to={"/"} key="logo" className={styles.logo}>
           ALEX MOZAGBA
         </NavLink>
         <button
