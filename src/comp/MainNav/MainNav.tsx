@@ -4,7 +4,6 @@ import styles from "./MainNav.module.sass";
 import { useEffect, useRef, useState } from "react";
 
 export default function MainNav() {
-  const []
   const [menuText, setMenuText] = useState("MENU");
   const [isClicked, setIsClicked] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
