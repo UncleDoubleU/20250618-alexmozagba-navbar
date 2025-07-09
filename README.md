@@ -1,3 +1,22 @@
 # 20250618-alexmozagba-navbar
 
-this short test is used to see what happens when I do most of the designing using code instead of using figma or other design softwares.
+> **Work in progress** 
+
+---
+
+## Purpose
+
+- Try a **code-first** approach to UI/UX design
+- Build and tweak directly in **React** without predefined mockups
+- Implement **accessibility** and **inclusivity** features as I go
+
+---
+
+## Tech Stack
+
+- React
+- GSAP
+- Vite
+- SASS Modules
+
+---

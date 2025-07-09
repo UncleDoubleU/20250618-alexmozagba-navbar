@@ -122,16 +122,15 @@ export default function MainNav() {
       const hShape = hShapeRef.current
 
       const hoveredEl = e.target;
-      let xPos = hoveredEl.getBoundingClientRect().left;
+      let xPos = hoveredEl.getBoundingClientRect().right;
       let yPos = hoveredEl.getBoundingClientRect().top / 2;
       let w = hoveredEl.offsetWidth;
       let h = hoveredEl.offsetHeight;
 
 
       tl.clear()
-      tl.from(hShape, {})
-        .to(hShape, { width: w, height: h })
-        .to(hShape, { x: xPos, y: yPos })
+      tl.to(hShape, { width: w, height: h })
+        .to(hShape, { left: xPos, top: '0' })
     }
   };
 
