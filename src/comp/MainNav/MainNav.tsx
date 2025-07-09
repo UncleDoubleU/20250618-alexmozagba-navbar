@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function MainNav() {
   const [isHovered, setIsHovered] = useState(false)
+  const [shapeX, setShapeX] = useState("0")
   const [menuText, setMenuText] = useState("MENU");
   const [isClicked, setIsClicked] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
@@ -34,13 +35,14 @@ export default function MainNav() {
     tl.clear();
 
     if (width < 500) {
-      isClicked ? tl.to(heEl, { duration: 0.3, height: '14rem' }) : tl.to(heEl, { duration: 0.3, height: '1.65rem' });
+      isClicked ? tl.to(heEl, { duration: 0.3, height: '14rem' }) : tl.to(heEl, { duration: 0.3, height: '1.7rem' });
 
     } else if (width >= 500 && width <= 1024) {
-      isClicked ? tl.to(heEl, { duration: 0.3, height: '10.485rem' }) : tl.to(heEl, { duration: 0.3, height: '1.65rem' });
+      isClicked ? tl.to(heEl, { duration: 0.3, height: '10.485rem' }) : tl.to(heEl, { duration: 0.3, height: '1.7rem' });
 
     } else if (width > 1024 && !isClicked && heEl) {
       tl.to(heEl, { duration: 0.3, height: '2.25rem' });
+
     }
   }, [isClicked, width]);
 
@@ -104,7 +106,7 @@ export default function MainNav() {
     setIsClicked(false);
   };
 
-  function menuBtnClick() {
+  function menuBtnClick(e) {
     setIsClicked((c) => !c);
   };
 
@@ -114,23 +116,27 @@ export default function MainNav() {
   // };
 
   function handleUnhover() {
-    setIsHovered(false)
+    if (hShapeRef?.current && headerRef?.current) {
+      tl.clear()
+    }
   };
 
   function handleHover(e) {
-    if (hShapeRef?.current) {
-      const hShape = hShapeRef.current
-
+    if (hShapeRef?.current && headerRef?.current) {
+      // let rspSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
+      let rspSize = headerRef.current.getBoundingClientRect().left + 0.125 * parseFloat(getComputedStyle(document.documentElement).fontSize) + 1.25;
+      const hShape = hShapeRef.current;
       const hoveredEl = e.target;
-      let xPos = hoveredEl.getBoundingClientRect().right;
-      let yPos = hoveredEl.getBoundingClientRect().top / 2;
-      let w = hoveredEl.offsetWidth;
+
+      let xPos = hoveredEl.getBoundingClientRect().left - rspSize;
+      let yPos = hoveredEl.getBoundingClientRect().top;
+      let w = hoveredEl.offsetWidth + 5;
       let h = hoveredEl.offsetHeight;
 
 
       tl.clear()
-      tl.to(hShape, { width: w, height: h })
-        .to(hShape, { left: xPos, top: '0' })
+      tl.to(hShape, { duration: 0.3, left: xPos, top: '0' })
+        .to(hShape, { duration: 0.15, width: w, height: '100%' }, 0.15);
     }
   };
 
