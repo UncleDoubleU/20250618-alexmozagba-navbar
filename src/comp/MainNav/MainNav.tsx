@@ -4,6 +4,7 @@ import styles from "./MainNav.module.sass";
 import { useEffect, useRef, useState } from "react";
 
 export default function MainNav() {
+  const [headerHeight, setHeaderHeight] = useState("")
   const [menuText, setMenuText] = useState("MENU");
   const [isClicked, setIsClicked] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
@@ -16,14 +17,19 @@ export default function MainNav() {
   let tl = gsap.timeline();
 
   useEffect(() => {
-    console.log(isClicked)
     setMenuText(isClicked ? "CLOSE" : "MENU");
-    if (width <= 500) {
-      isClicked ? tl.to(headerRef?.current, { duration: 0.5, height: '14rem' }) : tl.to(headerRef?.current, { duration: 0.5, height: '1.65rem' });
-    } else if (width > 500 && width <= 1024) {
-      isClicked ? tl.to(headerRef?.current, { duration: 0.5, height: '10.485rem' }) : tl.to(headerRef?.current, { duration: 0.5, height: '1.65rem' });
-    } else {
 
+    const heEl = headerRef?.current;
+    if (!heEl) return;
+    tl.clear();
+
+    if (width <= 500) {
+      isClicked ? tl.to(heEl, { duration: 0.3, height: '14rem' }) : tl.to(heEl, { duration: 0.3, height: '1.65rem' });
+    } else if (width > 500 && width <= 1024) {
+      isClicked ? tl.to(heEl, { duration: 0.3, height: '10.485rem' }) : tl.to(heEl, { duration: 0.3, height: '1.65rem' });
+    } else if (width > 1024 && !isClicked && heEl) {
+      console.log('hello');
+      tl.to(heEl, { duration: 0.3, height: '2.25rem' });
     }
   }, [isClicked, width]);
 
@@ -93,10 +99,10 @@ export default function MainNav() {
   const showMenu = width <= 1024 ? !isClicked : true;
   const ulClass = showMenu ? `${styles.ul}` : `${styles.activeList}`;
   const langClass =
-    !isClicked && width < 1025 ? styles.inactive : styles.langCont;
+    !isClicked && width <= 1025 ? styles.inactive : styles.langCont;
 
   return (
-    <header ref={headerRef} >
+    <header ref={headerRef}>
       <nav className="nav">
         <NavLink ref={logoRef} to={"/"} key="logo" className={styles.logo}>
           ALEX MOZAGBA
