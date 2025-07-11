@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="26"
+   height="26"
+   viewBox="0 0 27.733333 27.733333"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="Screenshot 2025-06-02 at 17.45.00.png"
+   inkscape:dataloss="true"
+   inkscape:export-filename="/Volumes/Samsung_T5/CS/20250618-alexmozagba-navbar/src/assets/hamburger-icon.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview1"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:document-units="px"
+   showguides="false"
+   showgrid="true"
+   inkscape:zoom="17.680296"
+   inkscape:cx="3.1390878"
+   inkscape:cy="16.996322"
+   inkscape:window-width="1824"
+   inkscape:window-height="1186"
+   inkscape:window-x="744"
+   inkscape:window-y="25"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="g11">
+  <sodipodi:guide
+     position="0,6.8791666"
+     orientation="0,26"
+     id="guide6"
+     inkscape:locked="false" />
+  <sodipodi:guide
+     position="6.8791666,6.8791666"
+     orientation="26,0"
+     id="guide7"
+     inkscape:locked="false" />
+  <sodipodi:guide
+     position="6.8791666,0"
+     orientation="0,-26"
+     id="guide8"
+     inkscape:locked="false" />
+  <sodipodi:guide
+     position="0,0"
+     orientation="-26,0"
+     id="guide9"
+     inkscape:locked="false" />
+  <inkscape:grid
+     id="grid10"
+     units="px"
+     originx="0"
+     originy="7.3436623e-18"
+     spacingx="0.26458333"
+     spacingy="0.26458333"
+     empcolor="#0099e5"
+     empopacity="0.30196078"
+     color="#0099e5"
+     opacity="0.14901961"
+     empspacing="5"
+     enabled="true"
+     visible="true"
+     dotted="false" />
+  <inkscape:page
+     x="0"
+     y="0"
+     width="27.733334"
+     height="27.733334"
+     id="page2"
+     margin="0"
+     bleed="0" />
+</sodipodi:namedview>
+<defs
+   id="defs1" />
+<g
+   inkscape:label="Layer 1"
+   inkscape:groupmode="layer"
+   id="layer1">
+  <g
+     id="g11"
+     transform="translate(0,0.21208417)">
+    <rect
+       style="fill:#000000;stroke-width:1.30639"
+       id="rect1"
+       width="25.6"
+       height="3.2"
+       x="1.0666665"
+       y="3.4145827" />
+    <rect
+       style="fill:#000000;stroke-width:1.34923"
+       id="rect2"
+       width="25.6"
+       height="3.4133334"
+       x="1.0666665"
+       y="20.481249" />
+    <rect
+       style="fill:#000000;stroke-width:1.30639"
+       id="rect3"
+       width="25.6"
+       height="3.2"
+       x="1.0666665"
+       y="-15.147916"
+       transform="scale(1,-1)" />
+  </g>
+</g>
+</svg>
