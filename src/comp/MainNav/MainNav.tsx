@@ -44,9 +44,9 @@ export default function MainNav() {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.addEventListener("pointerdown", handleClickOuside);
-      document.addEventListener("keydown", handleEscape);
-      document.addEventListener("keydown", handleEnter);
+      window.removeEventListener("pointerdown", handleClickOuside);
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleEnter);
     };
   }, []);
 
@@ -89,15 +89,15 @@ export default function MainNav() {
 
   function handleClickOuside(e: MouseEvent) {
     e.preventDefault();
-    if (menuBtnRef?.current && !menuBtnRef.current.contains(e.target as Node)) {
+    if (headerRef?.current && !headerRef.current.contains(e.target as Node)) {
       setIsClicked(false);
     }
   }
   function handleEnter(e: KeyboardEvent) {
     if (
-      menuBtnRef?.current &&
+      headerRef?.current &&
       e.key === "Enter" &&
-      menuBtnRef.current.contains(e.target as Node)
+      headerRef.current.contains(e.target as Node)
     ) {
       setIsClicked((c) => !c);
     }
@@ -135,14 +135,15 @@ export default function MainNav() {
         ease: "power4.out"
       }
     })
-      .from('.topBar', { rotation: 0, y: 0, transformOrigin: "center center" }, 0)
-      .from('.midBar', { opacity: 1 }, 0)
-      .from('.bottomBar', { rotation: 0, y: 0, transformOrigin: "center center" }, 0)
+      .from('.topBar', { rotation: 0, y: 0, transformOrigin: "center center", delay: 0.1 }, 0)
+      .from('.midBar', { opacity: 1, delay: 0.1 }, 0)
+      .from('.bottomBar', { rotation: 0, y: 0, transformOrigin: "center center", delay: 0.1 }, 0)
+      .from(headerRef.current, { height: "2.75rem" }, -0.2)
 
-      .to('.topBar', { rotation: 45, y: 8, transformOrigin: "center center" }, 0.3)
-      .to('.midBar', { opacity: 0 }, 0.3)
-      .to('.bottomBar', { rotation: -45, y: -8, transformOrigin: "center center" }, 0.3)
-
+      .to('.topBar', { rotation: 45, y: 8, transformOrigin: "center center" }, 0.6)
+      .to('.midBar', { opacity: 0 }, 0.6)
+      .to('.bottomBar', { rotation: -45, y: -8, transformOrigin: "center center" }, 0.6)
+      .to(headerRef.current, { height: "auto", duration: 0.5 })
       .reverse();
 
   }, { scope: headerRef, revertOnUpdate: true })
