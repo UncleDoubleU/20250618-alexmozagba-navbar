@@ -7,11 +7,10 @@ import { useEffect, useRef, useState } from "react";
 gsap.registerPlugin(useGSAP);
 
 export default function MainNav() {
-  const [navListClass, setNavListClass] = useState(`${styles.ul}`)
-  const [langClass, setLangClass] = useState(`${styles.langCont}`)
+  const [navListClass, setNavListClass] = useState(`${styles.ul}`);
+  const [langClass, setLangClass] = useState(`${styles.langCont}`);
   const [isClicked, setIsClicked] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeight] = useState(window.innerHeight);
 
   const menuBtnRef = useRef<HTMLDivElement>(null);
   const menuVectorRef = useRef<SVGSVGElement>(null);
@@ -20,22 +19,26 @@ export default function MainNav() {
   const hShapeRef = useRef<HTMLDivElement>(null);
   const navLinkRef = useRef<HTMLLIElement>(null);
 
-  let tl
+  let tl;
+
+  const { contextSafe } = useGSAP({ scope: headerRef })
 
   useEffect(() => {
-    menuAnim()
+    menuAnim();
+    // if (menuBtnRef?.current && width <= 1024) {
 
-  }, [isClicked, width])
+    //   menuBtnRef.current.addEventListener("click", () => openBurger)
+    // }
+    return () => {
 
+    }
+  }, [isClicked, width]);
 
   useEffect(() => {
-
-
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerdown", handleClickOuside);
     document.addEventListener("keydown", handleEscape);
     document.addEventListener("keydown", handleEnter);
-
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -74,47 +77,136 @@ export default function MainNav() {
 
   function handleResize() {
     setWidth(window.innerWidth);
-    setHeight(window.innerHeight);
     setIsClicked(false);
-    console.log(isClicked, width)
+    console.log(isClicked, width);
+  }
 
-  };
-
-  function menuBtnClick(e: MouseEvent) {
-    e.preventDefault()
+  function menuBtnClick() {
     setIsClicked((c) => !c);
-
-  };
+  }
 
   function handleClickOuside(e: MouseEvent) {
-    e.preventDefault()
+    e.preventDefault();
     if (menuBtnRef?.current && !menuBtnRef.current.contains(e.target as Node)) {
       setIsClicked(false);
     }
-  };
+  }
   function handleEnter(e: KeyboardEvent) {
-    if (menuBtnRef?.current && e.key === 'Enter' && menuBtnRef.current.contains(e.target as Node)) {
+    if (
+      menuBtnRef?.current &&
+      e.key === "Enter" &&
+      menuBtnRef.current.contains(e.target as Node)
+    ) {
       setIsClicked((c) => !c);
     }
-  };
+  }
 
   function handleEscape(e: KeyboardEvent) {
-    if (headerRef?.current && e.key === 'Escape' && headerRef.current.contains(e.target as Node)) {
+    if (
+      headerRef?.current &&
+      e.key === "Escape" &&
+      headerRef.current.contains(e.target as Node)
+    ) {
       setIsClicked(false);
     }
-  };
+  }
 
   function menuAnim() {
-    setNavListClass(isClicked ? `${styles.expandedNav}` : `${styles.ul}`)
-    setLangClass(!isClicked && width <= 1024 ? styles.inactive : styles.langCont)
+    if (menuBtnRef.current && isClicked) {
+      setNavListClass(`${styles.expandedNav}`)
+      openBurger()
+    }
+    if (menuBtnRef.current && !isClicked) {
+      setNavListClass(`${styles.ul}`)
+      closeBurger()
+    }
+    // setNavListClass(isClicked ? `${styles.expandedNav}` : `${styles.ul}`);
+    setLangClass(
+      !isClicked && width <= 1024 ? styles.inactive : styles.langCont
+    );
   }
 
 
+  const openBurger = contextSafe(() => {
+    tl = gsap.timeline();
+    tl.clear()
+    tl.to('.topBar', {
+      rotation: 45,
+      duration: .2,
+      transformOrigin: "center center",
+      y: 8,
+      ease: "power4.inOut"
+    })
+      .to('.midBar',
+        {
+          opacity: 0,
+          duration: .2
+        }, 0)
+      .to('.bottomBar', {
+        rotation: -45,
+        duration: .2,
+        transformOrigin: "center center",
+        y: -8, ease: "power4.inOut"
+      }, 0)
+      .to(headerRef.current, {
+        duration: .2,
+        height: "auto",
+        ease: "power4.out"
+      }, 0);
+  });
+
+  const closeBurger = contextSafe(() => {
+    tl = gsap.timeline();
+    tl.clear()
+    tl.to('.topBar', {
+      rotation: 0,
+      duration: .1,
+      transformOrigin: "center center",
+      y: 0,
+      ease: "power4.inOut"
+    })
+      .to('.midBar', {
+        opacity: 1,
+        duration: .1
+      }, 0)
+      .to('.bottomBar', {
+        rotation: 0,
+        duration: .1,
+        transformOrigin: "center center",
+        y: 0,
+        ease: "power4.inOut"
+      }, 0)
+      .to(headerRef.current, {
+        duration: .2,
+        height: "2.75rem",
+        ease: "power4.out"
+      }, 0)
+  });
+
+
+
+  // useEffect(() => {
+  //   if (menuBtnRef.current) {
+  //     menuBtnRef.current.addEventListener("click", () => !isClicked ? openBurger : console.log("closeBurger"))
+  //   }
+  //   return () => {
+  //     if (menuBtnRef.current) {
+  //       menuBtnRef.current.removeEventListener("click", () => !isClicked ? openBurger : console.log("closeBurger"))
+  //     }
+  //   }
+  // }, [isClicked])
+
+  // const openBurger = contextSafe(() => {
+  //   tl = gsap.timeline();
+  //   tl.to('.topBar', { rotate: 45, duration: .2 })
+  //     .to('.midBar', { opacity: 0, duration: .2 }, 0)
+  //     .to('.bottomBar', { rotate: -45, duration: .2 }, 0)
+
+  // });
 
   // const showMenu = width <= 1024 ? isClicked : true;
 
   // const langClass = !isClicked && width <= 1025 ? styles.inactive : styles.langCont;
-
 
   return (
     <header ref={headerRef}>
@@ -128,7 +220,8 @@ export default function MainNav() {
           ref={menuBtnRef}
           className={styles.menuBtn}
           onClick={menuBtnClick}
-          tabIndex={0}>
+          tabIndex={0}
+        >
           <svg
             width="25"
             height="19"
@@ -137,22 +230,45 @@ export default function MainNav() {
             ref={menuVectorRef}
           >
             <g transform="translate(0, 0)">
-              <rect className="topBar" width="100%" height="3" x="0" y="0" fill="#1A56FF" stroke="none" />
-              <rect className="midBar" width="100%" height="3" x="0" y="8" fill="#1A56FF" stroke="none" />
-              <rect className="bottomBar" width="100%" height="3" x="0" y="16" fill="#1A56FF" stroke="none" />
+              <rect
+                className="topBar"
+                width="100%"
+                height="3"
+                x="0"
+                y="0"
+                fill="#1A56FF"
+                stroke="none"
+              />
+              <rect
+                className="midBar"
+                width="100%"
+                height="3"
+                x="0"
+                y="8"
+                fill="#1A56FF"
+                stroke="none"
+              />
+              <rect
+                className="bottomBar"
+                width="25px"
+                height="3"
+                x="0"
+                y="16"
+                fill="#1A56FF"
+                stroke="none"
+              />
             </g>
           </svg>
         </div>
 
-        <ul key="nav-list" aria-label="main navigation" className={navListClass}>
+        <ul
+          key="nav-list"
+          aria-label="main navigation"
+          className={navListClass}
+        >
           {navLinks.map((link) => (
-            <li key={link.name}
-              ref={navLinkRef}
-            >
-              <NavLink
-                className={styles.a}
-                to={link.path}
-              >
+            <li key={link.name} ref={navLinkRef} className="navListItem">
+              <NavLink className={styles.a} to={link.path}>
                 {link.name}
               </NavLink>
             </li>
@@ -169,6 +285,6 @@ export default function MainNav() {
           </li>
         ))}
       </menu>
-    </header >
+    </header>
   );
 }
