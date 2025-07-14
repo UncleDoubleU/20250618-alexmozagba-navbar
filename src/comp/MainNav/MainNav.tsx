@@ -18,10 +18,12 @@ export default function MainNav() {
   const logoRef = useRef<HTMLAnchorElement>(null);
   const hShapeRef = useRef<HTMLDivElement>(null);
   const navLinkRef = useRef<HTMLLIElement>(null);
+  const tl = useRef<GSAPTimeline | null>(null)
+  // const mS = window.matchMedia("(width <= 1024)")
 
-  let tl;
 
-  const { contextSafe } = useGSAP({ scope: headerRef })
+
+  // const { contextSafe } = useGSAP({ scope: headerRef });
 
   useEffect(() => {
     menuAnim();
@@ -31,7 +33,7 @@ export default function MainNav() {
     // }
     return () => {
 
-    }
+    };
   }, [isClicked, width]);
 
   useEffect(() => {
@@ -114,11 +116,11 @@ export default function MainNav() {
   function menuAnim() {
     if (menuBtnRef.current && isClicked) {
       setNavListClass(`${styles.expandedNav}`)
-      openBurger()
+      // openBurger()
     }
     if (menuBtnRef.current && !isClicked) {
       setNavListClass(`${styles.ul}`)
-      closeBurger()
+      // closeBurger()
     }
     // setNavListClass(isClicked ? `${styles.expandedNav}` : `${styles.ul}`);
     setLangClass(
@@ -126,62 +128,86 @@ export default function MainNav() {
     );
   }
 
-
-  const openBurger = contextSafe(() => {
-    tl = gsap.timeline();
-    tl.clear()
-    tl.to('.topBar', {
-      rotation: 45,
-      duration: .2,
-      transformOrigin: "center center",
-      y: 8,
-      ease: "power4.inOut"
-    })
-      .to('.midBar',
-        {
-          opacity: 0,
-          duration: .2
-        }, 0)
-      .to('.bottomBar', {
-        rotation: -45,
-        duration: .2,
-        transformOrigin: "center center",
-        y: -8, ease: "power4.inOut"
-      }, 0)
-      .to(headerRef.current, {
-        duration: .2,
-        height: "auto",
+  useGSAP(() => {
+    tl.current = gsap.timeline({
+      defaults: {
+        duration: 0.3,
         ease: "power4.out"
-      }, 0);
-  });
-
-  const closeBurger = contextSafe(() => {
-    tl = gsap.timeline();
-    tl.clear()
-    tl.to('.topBar', {
-      rotation: 0,
-      duration: .1,
-      transformOrigin: "center center",
-      y: 0,
-      ease: "power4.inOut"
+      }
     })
-      .to('.midBar', {
-        opacity: 1,
-        duration: .1
-      }, 0)
-      .to('.bottomBar', {
-        rotation: 0,
-        duration: .1,
-        transformOrigin: "center center",
-        y: 0,
-        ease: "power4.inOut"
-      }, 0)
-      .to(headerRef.current, {
-        duration: .2,
-        height: "2.75rem",
-        ease: "power4.out"
-      }, 0)
-  });
+      .from('.topBar', { rotation: 0, y: 0, transformOrigin: "center center" }, 0)
+      .from('.midBar', { opacity: 1 }, 0)
+      .from('.bottomBar', { rotation: 0, y: 0, transformOrigin: "center center" }, 0)
+
+      .to('.topBar', { rotation: 45, y: 8, transformOrigin: "center center" }, 0.3)
+      .to('.midBar', { opacity: 0 }, 0.3)
+      .to('.bottomBar', { rotation: -45, y: -8, transformOrigin: "center center" }, 0.3)
+
+      .reverse();
+
+  }, { scope: headerRef, revertOnUpdate: true })
+
+  useEffect(() => {
+    tl.current?.reversed(!isClicked)
+  }, [isClicked])
+
+
+
+  // const openBurger = contextSafe(() => {
+  //   tl = gsap.timeline();
+  //   tl.clear()
+  //   tl.to('.topBar', {
+  //     rotation: 45,
+  //     duration: .2,
+  //     transformOrigin: "center center",
+  //     y: 8,
+  //     ease: "power4.inOut"
+  //   })
+  //     .to('.midBar',
+  //       {
+  //         opacity: 0,
+  //         duration: .2
+  //       }, 0)
+  //     .to('.bottomBar', {
+  //       rotation: -45,
+  //       duration: .2,
+  //       transformOrigin: "center center",
+  //       y: -8, ease: "power4.inOut"
+  //     }, 0)
+  //     .to(headerRef.current, {
+  //       height: "auto",
+  //       duration: .2,
+  //       ease: "power4.out"
+  //     }, 0);
+  // });
+
+  // const closeBurger = contextSafe(() => {
+  //   tl = gsap.timeline();
+  //   tl.clear()
+  //   tl.to('.topBar', {
+  //     rotation: 0,
+  //     duration: .1,
+  //     transformOrigin: "center center",
+  //     y: 0,
+  //     ease: "power4.inOut"
+  //   })
+  //     .to('.midBar', {
+  //       opacity: 1,
+  //       duration: .1
+  //     }, 0)
+  //     .to('.bottomBar', {
+  //       rotation: 0,
+  //       duration: .1,
+  //       transformOrigin: "center center",
+  //       y: 0,
+  //       ease: "power4.inOut"
+  //     }, 0)
+  //     .to(headerRef.current, {
+  //       duration: .2,
+  //       height: "2.75rem",
+  //       ease: "power4.out"
+  //     }, 0)
+  // });
 
 
 
@@ -219,7 +245,7 @@ export default function MainNav() {
           aria-label="menu"
           ref={menuBtnRef}
           className={styles.menuBtn}
-          onClick={menuBtnClick}
+          onClick={() => setIsClicked(!isClicked)}
           tabIndex={0}
         >
           <svg
