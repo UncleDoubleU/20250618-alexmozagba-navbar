@@ -21,6 +21,3 @@
 
 ---
 
-## Animation
-
-The first hurdle I encountered was the animation of the menu based on interaction mouse or keyboard interaction:
