@@ -2,40 +2,22 @@ import { NavLink } from "react-router";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import styles from "./MainNav.module.sass";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 gsap.registerPlugin(useGSAP);
 
 export default function MainNav() {
-  const [navListClass, setNavListClass] = useState(`${styles.ul}`);
-  const [langClass, setLangClass] = useState(`${styles.langCont}`);
   const [isClicked, setIsClicked] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
 
-  const menuBtnRef = useRef<HTMLDivElement>(null);
-  const menuVectorRef = useRef<SVGSVGElement>(null);
+  const langContRef = useRef<HTMLMenuElement>(null)
   const headerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
-  const hShapeRef = useRef<HTMLDivElement>(null);
   const navLinkRef = useRef<HTMLLIElement>(null);
   const tl = useRef<GSAPTimeline | null>(null);
 
-  // const smS = window.matchMedia("(500px <=width <= 1024px)");
-  // const xsS = window.matchMedia("(width < 500px");
-
-  // let mm = gsap.matchMedia();
-  // mm.add(
-  //   {
-  //     isSmallMedium: "(500px <=width <= 1024px)",
-  //     isSmall: "(width < 500px)",
-  //     reduceMotion: "(prefers-reduced-motion: reduce)",
-  //   }, (context) => {
-  //     let { isSmallMedium, isSmall, reduceMotion } = context.conditions;
-  //   }
-  // )
-
-  useEffect(() => {
-    menuAnim();
+  useLayoutEffect(() => {
+    // menuAnim();
     tl.current?.reversed(!isClicked)
   }, [isClicked, width]);
 
@@ -111,22 +93,14 @@ export default function MainNav() {
     }
   }
 
-  function menuAnim() {
-    if (menuBtnRef.current && isClicked) {
-      setNavListClass(`${styles.expandedNav}`)
-    }
-    if (menuBtnRef.current && !isClicked) {
-      setNavListClass(`${styles.ul}`)
-    }
-
-    setLangClass(
-      !isClicked && width <= 1024 ? styles.inactive : styles.langCont
-    );
-  }
+  // function menuAnim() {
+  //   setLangClass(
+  //     !isClicked && width <= 1024 ? styles.inactive : styles.langCont
+  //   );
+  // }
 
   useGSAP(
     () => {
-      console.log("animation going");
       const navItems = gsap.utils.toArray('.navListItem');
 
       tl.current = gsap.timeline({
@@ -135,6 +109,7 @@ export default function MainNav() {
           ease: "power4.out"
         }
       })
+        .set(headerRef.current, { height: '2.75rem' })
         // .from('.topBar', { rotation: 0, y: 0, transformOrigin: "center center" })
         // .from('.midBar', { opacity: 1 })
         // .from('.bottomBar', { rotation: 0, y: 0, transformOrigin: "center center" })
@@ -144,12 +119,13 @@ export default function MainNav() {
         .to('.topBar', { rotation: 45, y: 8, transformOrigin: "center center" })
         .fromTo('.midBar', { opacity: 1 }, { opacity: 0 }, "<")
         .to('.bottomBar', { rotation: -45, y: -8, transformOrigin: "center center" }, "<")
-        .fromTo(headerRef.current, { height: "2.75rem " }, {
+        .to(headerRef.current, {
           height: () => (
             width <= 500 ? "15rem" : "12.5rem"
           )
         }, 0)
-        // .to(navItems, { opacity: 1, stagger: .075 }, ">")
+        .fromTo(navItems, { opacity: width <= 1024 ? 0 : 1 }, { opacity: 1, stagger: .075 }, ">")
+        .fromTo(langContRef?.current, { opacity: width <= 1024 ? 0 : 1 }, { opacity: 1 }, "<+0.15")
         .reverse();
 
     },
@@ -168,7 +144,6 @@ export default function MainNav() {
         <div
           role="button"
           aria-label="menu"
-          ref={menuBtnRef}
           className={styles.menuBtn}
           onClick={() => setIsClicked(!isClicked)}
           tabIndex={0}
@@ -178,7 +153,7 @@ export default function MainNav() {
             height="19"
             viewBox="0 0 25 19"
             xmlns="http://www.w3.org/2000/svg"
-            ref={menuVectorRef}
+
           >
             <g transform="translate(0, 0)">
               <rect
@@ -215,7 +190,7 @@ export default function MainNav() {
         <ul
           key="nav-list"
           aria-label="main navigation"
-          className={navListClass}
+          className={styles.expandedNav}
         >
           {navLinks.map((link) => (
             <li key={link.name} ref={navLinkRef} className="navListItem">
@@ -225,9 +200,9 @@ export default function MainNav() {
             </li>
           ))}
         </ul>
-        <div ref={hShapeRef} className={styles.hoverShape}></div>
+        <div className={styles.hoverShape}></div>
       </nav>
-      <menu className={langClass}>
+      <menu ref={langContRef} className={styles.langCont}>
         {languages.map((lang) => (
           <li key={lang.name}>
             <button lang={lang.attrib} aria-label={lang.label}>
