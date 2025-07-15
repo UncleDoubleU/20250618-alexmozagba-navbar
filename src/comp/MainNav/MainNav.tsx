@@ -18,22 +18,25 @@ export default function MainNav() {
   const logoRef = useRef<HTMLAnchorElement>(null);
   const hShapeRef = useRef<HTMLDivElement>(null);
   const navLinkRef = useRef<HTMLLIElement>(null);
-  const tl = useRef<GSAPTimeline | null>(null)
-  // const mS = window.matchMedia("(width <= 1024)")
+  const tl = useRef<GSAPTimeline | null>(null);
 
+  // const smS = window.matchMedia("(500px <=width <= 1024px)");
+  // const xsS = window.matchMedia("(width < 500px");
 
-
-  // const { contextSafe } = useGSAP({ scope: headerRef });
+  // let mm = gsap.matchMedia();
+  // mm.add(
+  //   {
+  //     isSmallMedium: "(500px <=width <= 1024px)",
+  //     isSmall: "(width < 500px)",
+  //     reduceMotion: "(prefers-reduced-motion: reduce)",
+  //   }, (context) => {
+  //     let { isSmallMedium, isSmall, reduceMotion } = context.conditions;
+  //   }
+  // )
 
   useEffect(() => {
     menuAnim();
-    // if (menuBtnRef?.current && width <= 1024) {
-
-    //   menuBtnRef.current.addEventListener("click", () => openBurger)
-    // }
-    return () => {
-
-    };
+    tl.current?.reversed(!isClicked)
   }, [isClicked, width]);
 
   useEffect(() => {
@@ -80,11 +83,6 @@ export default function MainNav() {
   function handleResize() {
     setWidth(window.innerWidth);
     setIsClicked(false);
-    console.log(isClicked, width);
-  }
-
-  function menuBtnClick() {
-    setIsClicked((c) => !c);
   }
 
   function handleClickOuside(e: MouseEvent) {
@@ -116,124 +114,50 @@ export default function MainNav() {
   function menuAnim() {
     if (menuBtnRef.current && isClicked) {
       setNavListClass(`${styles.expandedNav}`)
-      // openBurger()
     }
     if (menuBtnRef.current && !isClicked) {
       setNavListClass(`${styles.ul}`)
-      // closeBurger()
     }
-    // setNavListClass(isClicked ? `${styles.expandedNav}` : `${styles.ul}`);
+
     setLangClass(
       !isClicked && width <= 1024 ? styles.inactive : styles.langCont
     );
   }
 
-  useGSAP(() => {
-    tl.current = gsap.timeline({
-      defaults: {
-        duration: 0.3,
-        ease: "power4.out"
-      }
-    })
-      .from('.topBar', { rotation: 0, y: 0, transformOrigin: "center center", delay: 0.1 }, 0)
-      .from('.midBar', { opacity: 1, delay: 0.1 }, 0)
-      .from('.bottomBar', { rotation: 0, y: 0, transformOrigin: "center center", delay: 0.1 }, 0)
-      .from(headerRef.current, { height: "2.75rem" }, -0.2)
+  useGSAP(
+    () => {
+      console.log("animation going");
+      const navItems = gsap.utils.toArray('.navListItem');
 
-      .to('.topBar', { rotation: 45, y: 8, transformOrigin: "center center" }, 0.6)
-      .to('.midBar', { opacity: 0 }, 0.6)
-      .to('.bottomBar', { rotation: -45, y: -8, transformOrigin: "center center" }, 0.6)
-      .to(headerRef.current, { height: "auto", duration: 0.5 })
-      .reverse();
+      tl.current = gsap.timeline({
+        defaults: {
+          duration: 0.3,
+          ease: "power4.out"
+        }
+      })
+        // .from('.topBar', { rotation: 0, y: 0, transformOrigin: "center center" })
+        // .from('.midBar', { opacity: 1 })
+        // .from('.bottomBar', { rotation: 0, y: 0, transformOrigin: "center center" })
+        // .from(headerRef.current, { height: "2.75rem" })
+        // .from(navItems, { opacity: 0, stagger: .075 })
 
-  }, { scope: headerRef, revertOnUpdate: true })
+        .to('.topBar', { rotation: 45, y: 8, transformOrigin: "center center" })
+        .fromTo('.midBar', { opacity: 1 }, { opacity: 0 }, "<")
+        .to('.bottomBar', { rotation: -45, y: -8, transformOrigin: "center center" }, "<")
+        .fromTo(headerRef.current, { height: "2.75rem " }, {
+          height: () => (
+            width <= 500 ? "15rem" : "12.5rem"
+          )
+        }, 0)
+        // .to(navItems, { opacity: 1, stagger: .075 }, ">")
+        .reverse();
 
-  useEffect(() => {
-    tl.current?.reversed(!isClicked)
-  }, [isClicked])
-
-
-
-  // const openBurger = contextSafe(() => {
-  //   tl = gsap.timeline();
-  //   tl.clear()
-  //   tl.to('.topBar', {
-  //     rotation: 45,
-  //     duration: .2,
-  //     transformOrigin: "center center",
-  //     y: 8,
-  //     ease: "power4.inOut"
-  //   })
-  //     .to('.midBar',
-  //       {
-  //         opacity: 0,
-  //         duration: .2
-  //       }, 0)
-  //     .to('.bottomBar', {
-  //       rotation: -45,
-  //       duration: .2,
-  //       transformOrigin: "center center",
-  //       y: -8, ease: "power4.inOut"
-  //     }, 0)
-  //     .to(headerRef.current, {
-  //       height: "auto",
-  //       duration: .2,
-  //       ease: "power4.out"
-  //     }, 0);
-  // });
-
-  // const closeBurger = contextSafe(() => {
-  //   tl = gsap.timeline();
-  //   tl.clear()
-  //   tl.to('.topBar', {
-  //     rotation: 0,
-  //     duration: .1,
-  //     transformOrigin: "center center",
-  //     y: 0,
-  //     ease: "power4.inOut"
-  //   })
-  //     .to('.midBar', {
-  //       opacity: 1,
-  //       duration: .1
-  //     }, 0)
-  //     .to('.bottomBar', {
-  //       rotation: 0,
-  //       duration: .1,
-  //       transformOrigin: "center center",
-  //       y: 0,
-  //       ease: "power4.inOut"
-  //     }, 0)
-  //     .to(headerRef.current, {
-  //       duration: .2,
-  //       height: "2.75rem",
-  //       ease: "power4.out"
-  //     }, 0)
-  // });
-
-
-
-  // useEffect(() => {
-  //   if (menuBtnRef.current) {
-  //     menuBtnRef.current.addEventListener("click", () => !isClicked ? openBurger : console.log("closeBurger"))
-  //   }
-  //   return () => {
-  //     if (menuBtnRef.current) {
-  //       menuBtnRef.current.removeEventListener("click", () => !isClicked ? openBurger : console.log("closeBurger"))
-  //     }
-  //   }
-  // }, [isClicked])
-
-  // const openBurger = contextSafe(() => {
-  //   tl = gsap.timeline();
-  //   tl.to('.topBar', { rotate: 45, duration: .2 })
-  //     .to('.midBar', { opacity: 0, duration: .2 }, 0)
-  //     .to('.bottomBar', { rotate: -45, duration: .2 }, 0)
-
-  // });
-
-  // const showMenu = width <= 1024 ? isClicked : true;
-
-  // const langClass = !isClicked && width <= 1025 ? styles.inactive : styles.langCont;
+    },
+    {
+      scope: headerRef,
+      dependencies: [width],
+      revertOnUpdate: true,
+    });
 
   return (
     <header ref={headerRef}>
